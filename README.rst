@@ -17,6 +17,6 @@ This standard must be placed inside PHPCodeSniffer's "Standards" directory aside
 Usage
 =====
 
-Use phpcs' --standard option to use it::
+Use phpcs' ``--standard`` option to use it::
 
     $ phpcs --standard=ezpnext ezp
