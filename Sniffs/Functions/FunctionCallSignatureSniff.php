@@ -187,7 +187,6 @@ class ezpnext_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeSni
                 }
 
                 if ($expectedIndent !== $foundIndent) {
-                    var_dump( $tokens[$i] );
                     $error = 'Multi-line function call not indented correctly; expected %s spaces but found %s';
                     $data  = array(
                               $expectedIndent,
