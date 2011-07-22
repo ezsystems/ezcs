@@ -19,9 +19,16 @@
  <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
  <rule ref="Generic.Strings.UnnecessaryStringConcat"/>
  <rule ref="Squiz.ControlStructures.ElseIfDeclaration"/>
+ <rule ref="Squiz.Functions.GlobalFunction"/>
+ <rule ref="Squiz.WhiteSpace.CastSpacing"/>
+ <rule ref="Squiz.WhiteSpace.FunctionOpeningBraceSpace"/>
+ <rule ref="Squiz.WhiteSpace.LanguageConstructSpacing"/>
+ <rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
+ <rule ref="Squiz.WhiteSpace.ScopeKeywordSpacing"/>
+ <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
  <rule ref="PEAR.Functions.ValidDefaultValue"/>
  <rule ref="PEAR.WhiteSpace.ScopeClosingBrace"/>
- <rule ref="Squiz.Functions.GlobalFunction"/>
+ <rule ref="PEAR.WhiteSpace.ObjectOperatorIndent"/>
 
  <!-- Lines can be 80 chars long, show errors at 120 chars >
  <rule ref="Generic.Files.LineLength">
