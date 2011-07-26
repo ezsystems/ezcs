@@ -10,7 +10,7 @@ class ezpnext_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeSni
      */
     public function register()
     {
-        return array(T_STRING);
+        return array(T_STRING, T_ARRAY);
 
     }//end register()
 
@@ -183,7 +183,15 @@ class ezpnext_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeSni
                 if ($tokens[$i]['code'] !== T_WHITESPACE) {
                     $foundIndent = 0;
                 } else {
-                    $foundIndent = strlen($tokens[$i]['content']);
+                    $j = 0;
+                    while ($tokens[$i+$j]['content'] === "\n") {
+                        ++$j;
+                        if ( $tokens[$i]['code'] !== T_WHITESPACE) {
+                            $phpcsFile->addError("Multi-line function call not indented correctly; expected %s spaces but found newlines instead", $i, 'Indent', array($expectedIndent));
+                            break;
+                        }
+                    }
+                    $foundIndent = strlen($tokens[$i+$j]['content']);
                 }
 
                 if ($expectedIndent !== $foundIndent) {
