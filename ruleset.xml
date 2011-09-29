@@ -7,7 +7,6 @@
  <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
  <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
  <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
- <rule ref="Generic.CodeAnalysis.EmptyStatement"/>
  <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
  <rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
  <rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
@@ -17,7 +16,6 @@
  <rule ref="Generic.Functions.CallTimePassByReference"/>
  <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
  <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
- <rule ref="Generic.Strings.UnnecessaryStringConcat"/>
  <rule ref="Squiz.ControlStructures.ElseIfDeclaration"/>
  <rule ref="Squiz.Functions.GlobalFunction"/>
  <rule ref="Squiz.WhiteSpace.CastSpacing"/>
