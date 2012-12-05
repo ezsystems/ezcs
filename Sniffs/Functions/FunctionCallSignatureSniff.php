@@ -146,29 +146,30 @@ class ezpnext_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeSni
         $lastLine     = $tokens[$openBracket]['line'];
         for ($i = ($openBracket + 1); $i < $closeBracket; $i++) {
             // Skip nested function calls.
-            if ($tokens[$i]['code'] === T_OPEN_PARENTHESIS) {
+            if ($tokens[$i]["code"] === T_OPEN_PARENTHESIS) {
                 $i        = $tokens[$i]['parenthesis_closer'];
                 $lastLine = $tokens[$i]['line'];
                 continue;
             }
+            $code = $tokens[$i]["code"];
+            $line = $tokens[$i]["line"];
 
-            if ($tokens[$i]['line'] !== $lastLine) {
-                $lastLine = $tokens[$i]['line'];
+            if ($line !== $lastLine) {
+                $lastLine = $line;
 
                 // We changed lines, so this should be a whitespace indent token.
-                if (in_array($tokens[$i]['code'], PHP_CodeSniffer_Tokens::$heredocTokens) === true) {
+                if (
                     // Ignore heredoc indentation.
+                    in_array($code, PHP_CodeSniffer_Tokens::$heredocTokens) ||
+                    // Ignore multi-line string indentation.
+                    (in_array($code, PHP_CodeSniffer_Tokens::$stringTokens) && $code === $tokens[$i - 1]['code']) ||
+                    // Multi-line comment
+                    ($code === T_COMMENT && $tokens[$i - 1]["code"] === T_COMMENT)
+                ) {
                     continue;
                 }
 
-                if (in_array($tokens[$i]['code'], PHP_CodeSniffer_Tokens::$stringTokens) === true) {
-                    if ($tokens[$i]['code'] === $tokens[($i - 1)]['code']) {
-                        // Ignore multi-line string indentation.
-                        continue;
-                    }
-                }
-
-                if ($tokens[$i]['line'] === $tokens[$closeBracket]['line']) {
+                if ($line === $tokens[$closeBracket]['line']) {
                     // Closing brace needs to be indented to the same level
                     // as the function call.
                     $expectedIndent = $functionIndent;
@@ -176,22 +177,38 @@ class ezpnext_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeSni
                     $expectedIndent = ($functionIndent + 4);
                 }
 
-                if ($tokens[$i+1]['code'] === T_OBJECT_OPERATOR) {
+                if ($tokens[$i + 1]['code'] === T_OBJECT_OPERATOR) {
                     $expectedIndent += 4;
                 }
+                if ($tokens[$i - 1]['code'] === T_WHITESPACE && $tokens[$i - 1]['content'] === "\n") {
+                    $start = 0;
+                    switch ($tokens[$i - 2]["code"]) {
+                        case T_INLINE_THEN:
+                        case T_DOUBLE_ARROW:
+                            $start = 4;
+                        case T_INLINE_ELSE:
+                        case T_STRING_CONCAT:
+                            $linePrev = $tokens[$i - 1]["line"];
+                            for ( $j = $i - 1; $j >=0 && $tokens[$j]["line"] >= $linePrev; --$j) {
+                            }
+                            $expectedIndent = $start;
+                            if ($tokens[$j+1]["type"] === "T_WHITESPACE")
+                                $expectedIndent += strlen($tokens[$j+1]["content"]);
+                    }
+                }
 
-                if ($tokens[$i]['code'] !== T_WHITESPACE) {
+                if ($code !== T_WHITESPACE) {
                     $foundIndent = 0;
                 } else {
                     $j = 0;
-                    while ($tokens[$i+$j]['content'] === "\n") {
+                    while ($tokens[$i + $j]['content'] === "\n") {
                         ++$j;
-                        if ( $tokens[$i]['code'] !== T_WHITESPACE) {
+                        if ( $code !== T_WHITESPACE) {
                             $phpcsFile->addError("Multi-line function call not indented correctly; expected %s spaces but found newlines instead", $i, 'Indent', array($expectedIndent));
                             break;
                         }
                     }
-                    $foundIndent = strlen($tokens[$i+$j]['content']);
+                    $foundIndent = strlen($tokens[$i + $j]['content']);
                 }
 
                 if ($expectedIndent !== $foundIndent) {
@@ -205,7 +222,7 @@ class ezpnext_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeSni
             }//end if
 
             // Skip the rest of a closure.
-            if ($tokens[$i]['code'] === T_CLOSURE) {
+            if ($code === T_CLOSURE) {
                 $i        = $tokens[$i]['scope_closer'];
                 $lastLine = $tokens[$i]['line'];
                 continue;

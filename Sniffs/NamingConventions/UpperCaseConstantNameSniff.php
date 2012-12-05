@@ -28,6 +28,7 @@ class ezpnext_Sniffs_NamingConventions_UpperCaseConstantNameSniff implements PHP
     {
         $tokens    = $phpcsFile->getTokens();
         $constName = $tokens[$stackPtr]['content'];
+        $constNameUpper = strtoupper($constName);
 
         // If this token is in a heredoc, ignore it.
         if ($phpcsFile->hasCondition($stackPtr, T_START_HEREDOC) === true) {
@@ -43,36 +44,34 @@ class ezpnext_Sniffs_NamingConventions_UpperCaseConstantNameSniff implements PHP
         // is not an opening parenthesis then it is not a function call.
         $openBracket = $phpcsFile->findNext(T_WHITESPACE, ($stackPtr + 1), null, true);
         if ($tokens[$openBracket]['code'] !== T_OPEN_PARENTHESIS) {
+            if ($constNameUpper == $constName)
+                return;
+
             $functionKeyword = $phpcsFile->findPrevious(array(T_WHITESPACE, T_COMMA, T_COMMENT, T_STRING), ($stackPtr - 1), null, true);
 
-            $declarations = array(
-                             T_FUNCTION,
-                             T_CLASS,
-                             T_INTERFACE,
-                             T_IMPLEMENTS,
-                             T_EXTENDS,
-                             T_INSTANCEOF,
-                             T_NEW,
-                             T_NAMESPACE,
-                             T_USE,
-                             T_AS,
-                            );
-
-            if (in_array($tokens[$functionKeyword]['code'], $declarations) === true) {
-                // This is just a declaration; no constants here.
-                return;
+            switch ($tokens[$functionKeyword]['code']) {
+                case T_FUNCTION:
+                case T_CLASS:
+                case T_INTERFACE:
+                case T_IMPLEMENTS:
+                case T_EXTENDS:
+                case T_INSTANCEOF:
+                case T_NEW:
+                case T_NAMESPACE:
+                case T_USE:
+                case T_AS:
+                    // This is just a declaration; no constants here.
+                    return;
             }
 
             if ($tokens[$functionKeyword]['code'] === T_CONST) {
                 // This is a class constant.
-                if (strtoupper($constName) !== $constName) {
-                    $error = 'Class constants must be uppercase; expected %s but found %s';
-                    $data  = array(
-                              strtoupper($constName),
-                              $constName,
-                             );
-                    $phpcsFile->addError($error, $stackPtr, 'ClassConstantNotUpperCase', $data);
-                }
+                $error = 'Class constants must be uppercase; expected %s but found %s';
+                $data  = array(
+                          $constNameUpper,
+                          $constName,
+                         );
+                $phpcsFile->addError($error, $stackPtr, 'ClassConstantNotUpperCase', $data);
 
                 return;
             }
@@ -124,14 +123,12 @@ class ezpnext_Sniffs_NamingConventions_UpperCaseConstantNameSniff implements PHP
             }
 
             // This is a real constant.
-            if (strtoupper($constName) !== $constName) {
-                $error = 'Constants must be uppercase; expected %s but found %s';
-                $data  = array(
-                          strtoupper($constName),
-                          $constName,
-                         );
-                $phpcsFile->addError($error, $stackPtr, 'ConstantNotUpperCase', $data);
-            }
+            $error = 'Constants must be uppercase; expected %s but found %s';
+            $data  = array(
+                      $constNameUpper,
+                      $constName,
+                     );
+            $phpcsFile->addError($error, $stackPtr, 'ConstantNotUpperCase', $data);
 
         } else if (strtolower($constName) === 'define' || strtolower($constName) === 'constant') {
 

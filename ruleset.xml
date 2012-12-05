@@ -26,7 +26,6 @@
  <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
  <rule ref="PEAR.Functions.ValidDefaultValue"/>
  <rule ref="PEAR.WhiteSpace.ScopeClosingBrace"/>
- <rule ref="PEAR.WhiteSpace.ObjectOperatorIndent"/>
 
  <!-- Lines can be 80 chars long, show errors at 120 chars >
  <rule ref="Generic.Files.LineLength">
