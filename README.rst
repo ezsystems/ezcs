@@ -1,6 +1,6 @@
-===============================
-ezpnext PHPCodeSniffer standard
-===============================
+=============================
+eZ v2 PHPCodeSniffer standard
+=============================
 
 This is the PHPCodeSniffer standard to be used to enforce the updated coding standards.
 
@@ -19,4 +19,4 @@ Usage
 
 Use phpcs' ``--standard`` option to use it::
 
-    $ phpcs --standard=ezpnext ezp
+    $ phpcs --standard=ezcs eZ/Publish/Core/FieldType/BinaryBase/PathGenerator.php
