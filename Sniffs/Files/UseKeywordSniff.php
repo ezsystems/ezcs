@@ -1,5 +1,5 @@
 <?php
-class ezcs_Sniffs_Files_UseKeywordSniff implements PHP_CodeSniffer_Sniff
+class ezpnext_Sniffs_Files_UseKeywordSniff implements PHP_CodeSniffer_Sniff
 {
     /**
      * Returns an array of tokens this test wants to listen for.

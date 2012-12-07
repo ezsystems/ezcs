@@ -2,7 +2,7 @@
 /**
  * This sniff class detected empty statement.
  */
-class ezcs_Sniffs_CodeAnalysis_EmptyStatementSniff extends Generic_Sniffs_CodeAnalysis_EmptyStatementSniff
+class ezpnext_Sniffs_CodeAnalysis_EmptyStatementSniff extends Generic_Sniffs_CodeAnalysis_EmptyStatementSniff
 {
 
     /**

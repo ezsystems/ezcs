@@ -1,98 +1,45 @@
 <?xml version="1.0"?>
-<ruleset name="ezcs">
- <description>eZ coding standard.</description>
+<ruleset name="ezp-next">
+ <description>ezp-next coding standard</description>
 
-    <!-- ezcs: Common parts with PSR-2, TODO: Also reuse script sniffs -->
-    <!-- 2. General -->
+ <!-- Include some sniffs from all around the place -->
+ <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+ <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
+ <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+ <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
+ <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+ <rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
+ <rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
+ <rule ref="Generic.Commenting.Todo"/>
+ <rule ref="Generic.Formatting.NoSpaceAfterCast"/>
+ <rule ref="Generic.NamingConventions.ConstructorName"/>
+ <rule ref="Generic.Functions.CallTimePassByReference"/>
+ <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+ <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
+ <rule ref="Squiz.ControlStructures.ElseIfDeclaration"/>
+ <rule ref="Squiz.Functions.GlobalFunction"/>
+ <rule ref="Squiz.WhiteSpace.CastSpacing"/>
+ <rule ref="Squiz.WhiteSpace.FunctionOpeningBraceSpace"/>
+ <rule ref="Squiz.WhiteSpace.LanguageConstructSpacing"/>
+ <rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
+ <rule ref="Squiz.WhiteSpace.ScopeKeywordSpacing"/>
+ <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+ <rule ref="PEAR.Functions.ValidDefaultValue"/>
+ <rule ref="PEAR.WhiteSpace.ScopeClosingBrace"/>
 
-    <!-- 2.1 Basic Coding Standard -->
+ <!-- Lines can be 80 chars long, show errors at 120 chars >
+ <rule ref="Generic.Files.LineLength">
+  <properties>
+   <property name="lineLimit" value="80"/>
+   <property name="absoluteLineLimit" value="120"/>
+  </properties>
+ </rule-->
 
-    <!-- Include the whole PSR-1 standard -->
-    <rule ref="PSR1"/>
-
-    <!-- 2.2 Files -->
-
-    <!-- All PHP files MUST use the Unix LF (linefeed) line ending. -->
-    <rule ref="Generic.Files.LineEndings">
-     <properties>
-      <property name="eolChar" value="\n"/>
-     </properties>
-    </rule>
-
-    <!-- All PHP files MUST end with a single blank line. -->
-    <!-- checked in Files/EndFileNewlineSniff -->
-
-    <!-- The closing ?> tag MUST be omitted from files containing only PHP. -->
-    <rule ref="Zend.Files.ClosingTag"/>
-
-    <!-- 2.3 Lines -->
-
-    <!-- The soft limit on line length MUST be 120 characters; automated style checkers MUST warn but MUST NOT error at the soft limit. -->
-    <rule ref="Generic.Files.LineLength">
-     <properties>
-      <property name="lineLimit" value="120"/>
-      <property name="absoluteLineLimit" value="0"/>
-     </properties>
-    </rule>
-
-    <!-- There MUST NOT be trailing whitespace at the end of non-blank lines. -->
-    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace">
-     <properties>
-      <property name="ignoreBlankLines" value="true"/>
-      </properties>
-    </rule>
-    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.StartFile">
-     <severity>0</severity>
-    </rule>
-    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.EndFile">
-     <severity>0</severity>
-    </rule>
-    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.EmptyLines">
-     <severity>0</severity>
-    </rule>
-
-    <!-- There MUST NOT be more than one statement per line. -->
-    <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
-
-    <!-- 2.4 Indenting -->
-
-    <!-- Code MUST use an indent of 4 spaces, and MUST NOT use tabs for indenting. -->
-    <rule ref="Generic.WhiteSpace.ScopeIndent"/>
-    <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
-
-    <!-- 2.5 Keywords and True/False/Null -->
-
-    <!-- The PHP constants true, false, and null MUST be in lower case. -->
-    <rule ref="Generic.PHP.LowerCaseConstant"/>
-
-    <!-- 4.3 Methods -->
-
-    <!-- Visibility MUST be declared on all methods. -->
-    <rule ref="Squiz.Scope.MethodScope"/>
-    <rule ref="Squiz.WhiteSpace.ScopeKeywordSpacing"/>
-
-     <!-- ezcs: Include some sniffs from all around the place -->
-     <rule ref="Generic.PHP.DisallowShortOpenTag"/>
-     <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
-     <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
-     <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
-     <rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
-     <rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
-     <rule ref="Generic.Commenting.Todo"/>
-     <rule ref="Generic.Formatting.NoSpaceAfterCast"/>
-     <rule ref="Generic.NamingConventions.ConstructorName"/>
-     <rule ref="Generic.Functions.CallTimePassByReference"/>
-     <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
-     <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
-     <rule ref="Squiz.ControlStructures.ElseIfDeclaration"/>
-     <rule ref="Squiz.Functions.GlobalFunction"/>
-     <rule ref="Squiz.WhiteSpace.CastSpacing"/>
-     <rule ref="Squiz.WhiteSpace.FunctionOpeningBraceSpace"/>
-     <rule ref="Squiz.WhiteSpace.LanguageConstructSpacing"/>
-     <rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
-     <rule ref="Squiz.WhiteSpace.ScopeKeywordSpacing"/>
-     <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
-     <rule ref="PEAR.Functions.ValidDefaultValue"/>
-     <rule ref="PEAR.WhiteSpace.ScopeClosingBrace"/>
+ <!-- Use Unix newlines -->
+ <rule ref="Generic.Files.LineEndings">
+  <properties>
+   <property name="eolChar" value="\n"/>
+  </properties>
+ </rule>
 
 </ruleset>
