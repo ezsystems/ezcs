@@ -1,5 +1,5 @@
 <?php
-class ezpnext_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeSniffer_Sniff
+class ezcs_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeSniffer_Sniff
 {
 
 

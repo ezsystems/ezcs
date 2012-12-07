@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="ezp-next">
- <description>ezp-next coding standard</description>
+<ruleset name="ezcs">
+ <description>eZ coding standard</description>
 
  <!-- Include some sniffs from all around the place -->
  <rule ref="Generic.PHP.DisallowShortOpenTag"/>

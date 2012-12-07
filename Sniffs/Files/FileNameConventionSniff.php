@@ -1,5 +1,5 @@
 <?php
-class ezpnext_Sniffs_Files_FileNameConventionSniff implements PHP_CodeSniffer_Sniff
+class ezcs_Sniffs_Files_FileNameConventionSniff implements PHP_CodeSniffer_Sniff
 {
     /**
      * Returns an array of tokens this test wants to listen for.

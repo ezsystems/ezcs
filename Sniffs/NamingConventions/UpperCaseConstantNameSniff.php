@@ -1,5 +1,5 @@
 <?php
-class ezpnext_Sniffs_NamingConventions_UpperCaseConstantNameSniff implements PHP_CodeSniffer_Sniff
+class ezcs_Sniffs_NamingConventions_UpperCaseConstantNameSniff implements PHP_CodeSniffer_Sniff
 {
 
 
