@@ -2,7 +2,7 @@
 eZ v2 PHPCodeSniffer standard
 =============================
 
-This is the PHPCodeSniffer standard to be used to enforce the updated coding standards.
+This is the PHPCodeSniffer standard to be used to enforce the updated coding standards as found [here](https://github.com/ezsystems/ezp-next/wiki/codingstandards).
 
 Installation
 ============
