@@ -11,11 +11,12 @@
  <rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
  <rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
  <rule ref="Generic.Commenting.Todo"/>
+ <rule ref="Generic.Files.ByteOrderMark"/>
  <rule ref="Generic.Formatting.NoSpaceAfterCast"/>
- <rule ref="Generic.NamingConventions.ConstructorName"/>
  <rule ref="Generic.Functions.CallTimePassByReference"/>
  <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
  <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
+ <rule ref="Generic.NamingConventions.ConstructorName"/>
  <rule ref="Squiz.ControlStructures.ElseIfDeclaration"/>
  <rule ref="Squiz.Functions.GlobalFunction"/>
  <rule ref="Squiz.WhiteSpace.CastSpacing"/>
@@ -26,6 +27,22 @@
  <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
  <rule ref="PEAR.Functions.ValidDefaultValue"/>
  <rule ref="PEAR.WhiteSpace.ScopeClosingBrace"/>
+ <rule ref="PSR1.Files.SideEffects"/>
+
+ <!--
+ Sniffs to comply with PSR1.
+ Not active yet because of not being respected yet or being broken
+ <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+ <rule ref="Squiz.Classes.ValidClassName"/>
+ <rule ref="PSR1.Classes.ClassDeclaration"/>
+ -->
+
+ <!-- Method names MUST be declared in camelCase(). -->
+ <rule ref="Generic.NamingConventions.CamelCapsFunctionName">
+  <properties>
+   <property name="strict" value="false"/>
+  </properties>
+ </rule>
 
  <!-- Lines can be 80 chars long, show errors at 120 chars >
  <rule ref="Generic.Files.LineLength">
