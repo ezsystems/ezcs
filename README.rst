@@ -7,7 +7,7 @@ This is the PHPCodeSniffer standard to be used to enforce the updated_ coding st
 Installation
 ============
 
-This standard must be placed inside PHPCodeSniffer's "Standards" directory aside the built-in one like:
+This standard must be placed as "ezcs" inside PHPCodeSniffer's "Standards" directory aside the built-in one like:
 
 * PEAR
 * PHPCS
