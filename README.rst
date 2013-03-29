@@ -23,4 +23,4 @@ Use phpcs' ``--standard`` option to use it::
 
 
 
-.. _updated: https://github.com/ezsystems/ezp-next/wiki/codingstandards
+.. _updated: https://github.com/ezsystems/ezpublish-kernel/wiki/codingstandards
