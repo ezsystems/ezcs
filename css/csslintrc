@@ -1,0 +1,3 @@
+--ignore=important,adjoining-classes,box-sizing,box-model,bulletproof-font-face,regex-selectors,selector-max-approaching,font-sizes,font-faces,floats,star-property-hack,ids,underscore-property-hack,rules-count,qualified-headings,selector-max,text-indent,unique-headings,universal-selector,unqualified-attributes
+--errors=known-properties,errors,duplicate-properties,empty-rules,gradients,vendor-prefix
+--warning=overqualified-elements,display-property-grouping,compatible-vendor-prefixes,duplicate-background-images,font-sizes,fallback-colors,outline-none,import,shorthand,zero-units
