@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <code_scheme name="eZ Publish">
+  <option name="RIGHT_MARGIN" value="100" />
   <PHPCodeStyleSettings>
     <option name="PHPDOC_BLANK_LINE_BEFORE_TAGS" value="true" />
     <option name="PHPDOC_BLANK_LINES_AROUND_PARAMETERS" value="true" />
