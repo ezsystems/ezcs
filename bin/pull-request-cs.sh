@@ -3,11 +3,15 @@
 # The first argument is to the tool to use to check the CS, the
 # following arguments depend on the choosen tool.
 #
+# Requirements in the path:
+# * standard tools: find, wc, rm, grep, wget, expr
+# * external tools: php, phpcs, jshint, csslint, yuidoc
+#
 # Arguments for PHP:
 # phpcs -n --extensions=php --ignore='*/_fixtures/*' --standard=ezcs eZ/
 # 
 # Arguments for JavaScript:
-# jshint "<list or directories separated by space to search for .js file>" --verbose
+# jshint "<list files or directories separated by space to search for .js file>" --verbose
 #
 # Arguments for CSS:
 # csslint --format=compact Resouces/public/css/*css
