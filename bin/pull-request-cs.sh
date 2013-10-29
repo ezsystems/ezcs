@@ -4,7 +4,7 @@
 # following arguments depend on the choosen tool.
 #
 # Requirements in the path:
-# * standard tools: find, wc, rm, grep, wget, expr
+# * standard tools: find, wc, rm, grep, wget
 # * external tools: php, phpcs, jshint, csslint, yuidoc
 #
 # Arguments for PHP:
@@ -31,22 +31,36 @@ CSSLINTRC=.csslintrc
 if [ "$TOOL" = "phpcs" ] ; then
     phpcs --report-full="$REPORT" $*
     EXIT_CODE=$?
+    if [ $EXIT_CODE -ne 0 ] ; then
+        sed -i '1s@^@This Pull Request does not respect our [PHP Coding Standards](https://github.com/ezsystems/ezcs/tree/master/php), please, see the report below:\n\n```\n@' "$REPORT"
+        echo '```' >> "$REPORT"
+    fi
 elif [ "$TOOL" = "jshint" ] ; then
     SRC=$1
     shift
-    for f in `find $SRC -iname \*.js -print` ; do
-        jshint $* "$f" 2>&1 >> $REPORT
+    for f in `find $SRC -iname \*.js` ; do
+        OUT=`jshint $* "$f" 2>&1`
         LOCAL_EXIT_CODE=$?
-        [ $LOCAL_EXIT_CODE -ne 0 ] && echo "--------" >> $REPORT
-        EXIT_CODE=`expr $EXIT_CODE + $LOCAL_EXIT_CODE`
+        [ $LOCAL_EXIT_CODE -ne 0 ] && echo "\`\`\`\n$OUT\n\`\`\`\n" >> "$REPORT" && EXIT_CODE=42
     done
+    if [ $EXIT_CODE -ne 0 ] ; then
+        sed -i '1s@^@jshint with [our configuration](https://github.com/ezsystems/ezcs/tree/master/js) reports the following issues:\n\n@' "$REPORT"
+    fi
 elif [ "$TOOL" = "csslint" ] ; then
     [ ! -f "$CSSLINTRC" ] && wget "$REMOTE_CSSLINTRC" -O "$CSSLINTRC"
     csslint $* | grep 'Error' > "$REPORT"
     EXIT_CODE=`wc -l $REPORT | cut -d ' ' -f 1`
+    if [ $EXIT_CODE -ne 0 ] ; then
+        sed -i '1s@^@csslint with [our configuration](https://github.com/ezsystems/ezcs/tree/master/css) reports the following errors:\n\n```\n@' "$REPORT"
+        echo '```' >> "$REPORT"
+    fi
 elif [ "$TOOL" = "yuidoc" ] ; then
     yuidoc --lint $* >> $REPORT
     EXIT_CODE=$?
+    if [ $EXIT_CODE -ne 0 ] ; then
+        sed -i '1s@^@yuidoc reports the following documentation warnings:\n\n```\n@' "$REPORT"
+        echo '```' >> "$REPORT"
+    fi
 fi
 
 
