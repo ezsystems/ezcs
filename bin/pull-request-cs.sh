@@ -8,12 +8,18 @@
 # 
 # Arguments for JavaScript:
 # jshint "<list or directories separated by space to search for .js file>" --verbose
+#
+# Arguments for CSS:
+# csslint --format=compact Resouces/public/css/*css
 
 EXIT_CODE=0
 REPORT="logs/report.txt"
 TOOL=$1
 
 shift
+
+REMOTE_CSSLINTRC=https://raw.github.com/ezsystems/ezcs/master/css/csslintrc
+CSSLINTRC=.csslintrc
 
 if [ "$TOOL" = "phpcs" ] ; then
     phpcs --report-full="$REPORT" $*
@@ -27,6 +33,10 @@ elif [ "$TOOL" = "jshint" ] ; then
         [ $LOCAL_EXIT_CODE -ne 0 ] && echo "--------" >> $REPORT
         EXIT_CODE=`expr $EXIT_CODE + $LOCAL_EXIT_CODE`
     done
+elif [ "$TOOL" = "csslint" ] ; then
+    [ ! -f "$CSSLINTRC" ] && wget "$REMOTE_CSSLINTRC" -O "$CSSLINTRC"
+    csslint $* | grep 'Error' > "$REPORT"
+    EXIT_CODE=`wc -l $REPORT | cut -d ' ' -f 1`
 fi
 
 
