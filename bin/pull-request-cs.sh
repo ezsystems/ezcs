@@ -11,6 +11,9 @@
 #
 # Arguments for CSS:
 # csslint --format=compact Resouces/public/css/*css
+#
+# Arguments to check the JavaScript API doc:
+# yuidoc <list of directories separated by space to search for .js files>
 
 EXIT_CODE=0
 REPORT="logs/report.txt"
@@ -37,6 +40,9 @@ elif [ "$TOOL" = "csslint" ] ; then
     [ ! -f "$CSSLINTRC" ] && wget "$REMOTE_CSSLINTRC" -O "$CSSLINTRC"
     csslint $* | grep 'Error' > "$REPORT"
     EXIT_CODE=`wc -l $REPORT | cut -d ' ' -f 1`
+elif [ "$TOOL" = "yuidoc" ] ; then
+    yuidoc --lint $* >> $REPORT
+    EXIT_CODE=$?
 fi
 
 
