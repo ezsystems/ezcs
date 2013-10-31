@@ -1,0 +1,8 @@
+{
+    "name": "ezsystems/ezcs",
+    "description": "This package contains the configuration for various tools to check the eZ coding standards in different languages",
+    "license": "GNU General Public License v2.0",
+    "require-dev": {
+        "squizlabs/php_codesniffer": "1.*"
+    }
+}
