@@ -21,8 +21,10 @@
 
 EXIT_CODE=0
 REPORT="logs/report.txt"
-TOOL=$1
+REPO=$1
+shift
 
+TOOL=$1
 shift
 
 REMOTE_CSSLINTRC=https://raw.github.com/ezsystems/ezcs/master/css/csslintrc
@@ -48,7 +50,7 @@ elif [ "$TOOL" = "jshint" ] ; then
     fi
 elif [ "$TOOL" = "csslint" ] ; then
     [ ! -f "$CSSLINTRC" ] && wget "$REMOTE_CSSLINTRC" -O "$CSSLINTRC"
-    csslint $* | grep 'Error' > "$REPORT"
+    csslint $* | grep --color=never 'Error' > "$REPORT"
     EXIT_CODE=`wc -l $REPORT | cut -d ' ' -f 1`
     if [ $EXIT_CODE -ne 0 ] ; then
         sed -i '1s@^@csslint with [our configuration](https://github.com/ezsystems/ezcs/tree/master/css) reports the following errors:\n\n```\n@' "$REPORT"
@@ -65,7 +67,8 @@ fi
 
 
 if [ $EXIT_CODE -ne 0 ] ; then
-    postComment.php $(grep -l $(git rev-parse HEAD) .git/refs/remotes/origin/pr/*/head | sed 's@\.git/refs/remotes/origin/pr/@@;s@/head@@') "$PWD/$REPORT"
+    postComment.php "$REPO" $(grep -l $(git rev-parse HEAD) .git/refs/remotes/origin/pr/*/head | sed 's@\.git/refs/remotes/origin/pr/@@;s@/head@@') "$PWD/$REPORT"
 fi
 
 [ -f "$REPORT" ] && rm "$REPORT"
+exit 0
