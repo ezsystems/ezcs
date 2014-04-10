@@ -65,6 +65,8 @@ elif [ "$TOOL" = "yuidoc" ] ; then
     fi
 fi
 
+# Output the report for easier debug in case of (gihub/*) issues
+cat $REPORT
 
 if [ $EXIT_CODE -ne 0 ] ; then
     postComment.php "$REPO" $(grep -l $(git rev-parse HEAD) .git/refs/remotes/origin/pr/*/head | sed 's@\.git/refs/remotes/origin/pr/@@;s@/head@@') "$PWD/$REPORT"

@@ -12,7 +12,7 @@ $description = isset( $argv[5] ) ? $argv[5] : "";
 $ch = curl_init( "https://api.github.com/repos/ezsystems/$repo/statuses/$sha1" );
 
 curl_setopt( $ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC );
-curl_setopt( $ch, CURLOPT_USERPWD, $login . ':' . $_ENV[$login] );
+curl_setopt( $ch, CURLOPT_USERPWD, $login . ':' . getenv( $login ) );
 curl_setopt( $ch, CURLOPT_SSLVERSION, 3 );
 curl_setopt( $ch, CURLOPT_HEADER, true );
 curl_setopt( $ch, CURLOPT_POST, true );
