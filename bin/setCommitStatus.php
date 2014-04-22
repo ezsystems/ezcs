@@ -8,6 +8,7 @@ $sha1 = $argv[2];
 $state = $argv[3];
 $url = $argv[4];
 $description = isset( $argv[5] ) ? $argv[5] : "";
+$context = isset( $argv[6] ) ? $argv[6] : $login;
 
 $ch = curl_init( "https://api.github.com/repos/ezsystems/$repo/statuses/$sha1" );
 
@@ -24,7 +25,8 @@ curl_setopt(
         array(
             'state' => $state,
             'target_url' => $url,
-            'description' => $description
+            'description' => $description,
+            'context' => $context
         )
     )
 );
