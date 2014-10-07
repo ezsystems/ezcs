@@ -12,13 +12,11 @@ $context = isset( $argv[6] ) ? $argv[6] : $login;
 
 $ch = curl_init( "https://api.github.com/repos/ezsystems/$repo/statuses/$sha1" );
 
-curl_setopt( $ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC );
-curl_setopt( $ch, CURLOPT_USERPWD, $login . ':' . getenv( $login ) );
 curl_setopt( $ch, CURLOPT_SSLVERSION, 3 );
 curl_setopt( $ch, CURLOPT_HEADER, true );
 curl_setopt( $ch, CURLOPT_POST, true );
 curl_setopt( $ch, CURLOPT_USERAGENT, "ezrobot" );
-curl_setopt( $ch, CURLOPT_HTTPHEADER, array( 'Content-Type: application/json' ) );
+curl_setopt( $ch, CURLOPT_HTTPHEADER, array( 'Content-Type: application/json', 'Authorization: token '. getenv( $login ) ) );
 curl_setopt(
     $ch, CURLOPT_POSTFIELDS,
     json_encode(
