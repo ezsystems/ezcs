@@ -30,6 +30,9 @@ shift
 REMOTE_CSSLINTRC=https://raw.github.com/ezsystems/ezcs/master/css/csslintrc
 CSSLINTRC=.csslintrc
 
+
+setCommitStatus.php "$REPO" $(git rev-parse HEAD) "pending" "" "Coding review by ezrobot" "ezrobot"
+
 if [ "$TOOL" = "phpcs" ] ; then
     phpcs --report-full="$REPORT" $*
     EXIT_CODE=$?
@@ -70,6 +73,9 @@ cat $REPORT
 
 if [ $EXIT_CODE -ne 0 ] ; then
     postComment.php "$REPO" $(grep -l $(git rev-parse HEAD) .git/refs/remotes/origin/pr/*/head | sed 's@\.git/refs/remotes/origin/pr/@@;s@/head@@') "$PWD/$REPORT"
+    setCommitStatus.php "$REPO" $(git rev-parse HEAD) "failure" "" "Coding review by ezrobot" "ezrobot"
+else
+    setCommitStatus.php "$REPO" $(git rev-parse HEAD) "success" "" "Coding review by ezrobot" "ezrobot"
 fi
 
 [ -f "$REPORT" ] && rm "$REPORT"
