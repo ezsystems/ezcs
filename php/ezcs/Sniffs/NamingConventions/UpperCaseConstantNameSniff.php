@@ -63,6 +63,12 @@ class ezcs_Sniffs_NamingConventions_UpperCaseConstantNameSniff implements PHP_Co
                     // This is just a declaration; no constants here.
                     return;
             }
+            if ( version_compare( PHP_VERSION, '5.4.0') >= 0 ) {
+                switch ($tokens[$functionKeyword]['code']) {
+                    case T_TRAIT:
+                        return;
+                }
+            }
 
             if ($tokens[$functionKeyword]['code'] === T_CONST) {
                 // This is a class constant.
