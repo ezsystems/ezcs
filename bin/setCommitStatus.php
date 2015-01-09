@@ -12,7 +12,6 @@ $context = isset( $argv[6] ) ? $argv[6] : $login;// identifier, i.e. "ci/ezcs", 
 
 $ch = curl_init( "https://api.github.com/repos/ezsystems/$repo/statuses/$sha1" );
 
-curl_setopt( $ch, CURLOPT_SSLVERSION, 3 );
 curl_setopt( $ch, CURLOPT_HEADER, true );
 curl_setopt( $ch, CURLOPT_POST, true );
 curl_setopt( $ch, CURLOPT_USERAGENT, "ezrobot" );
