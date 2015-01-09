@@ -15,5 +15,11 @@ curl_setopt(
     json_encode( array( "body" => file_get_contents( $argv[3] ) ) )
 );
 
-curl_exec( $ch );
+if ( curl_exec( $ch ) === false )
+{
+    echo "\n\n# postComment.php curl error:\n" . curl_error( $ch ) . "\n\n";
+    curl_close( $ch );
+    exit( 1 );
+}
+
 curl_close( $ch );

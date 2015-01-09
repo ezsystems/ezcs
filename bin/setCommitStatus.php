@@ -29,5 +29,11 @@ curl_setopt(
     )
 );
 
-curl_exec( $ch );
+if ( curl_exec( $ch ) === false )
+{
+    echo "\n\n# setCommit.php curl error:\n" . curl_error( $ch ) . "\n\n";
+    curl_close( $ch );
+    exit( 1 );
+}
+
 curl_close( $ch );
