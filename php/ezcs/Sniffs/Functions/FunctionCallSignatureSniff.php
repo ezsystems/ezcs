@@ -10,7 +10,7 @@ class ezcs_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeSniffe
      */
     public function register()
     {
-        return array(T_STRING, T_ARRAY);
+        return array(T_STRING, T_ARRAY, T_OPEN_SHORT_ARRAY);
 
     }//end register()
 
@@ -145,9 +145,15 @@ class ezcs_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeSniffe
         $closeBracket = $tokens[$openBracket]['parenthesis_closer'];
         $lastLine     = $tokens[$openBracket]['line'];
         for ($i = ($openBracket + 1); $i < $closeBracket; $i++) {
-            // Skip nested function calls.
+            // Skip nested function calls (including arrays).
             if ($tokens[$i]["code"] === T_OPEN_PARENTHESIS) {
                 $i        = $tokens[$i]['parenthesis_closer'];
+                $lastLine = $tokens[$i]['line'];
+                continue;
+            }
+            // Skip nested short arrays
+            if ($tokens[$i]['code'] === T_OPEN_SHORT_ARRAY) {
+                $i        = $tokens[$i]['bracket_closer'];
                 $lastLine = $tokens[$i]['line'];
                 continue;
             }

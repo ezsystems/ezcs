@@ -8,7 +8,7 @@ class ezcs_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sniff
      */
     public function register()
     {
-        return array(T_ARRAY);
+        return array(T_ARRAY, T_OPEN_SHORT_ARRAY);
 
     }
 
@@ -31,13 +31,18 @@ class ezcs_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sniff
             $phpcsFile->addError('Array keyword should be lower case; expected "array" but found "%s"', $stackPtr, 'NotLowerCase', array($tokens[$stackPtr]['content']));
         }
 
-        $arrayStart   = $tokens[$stackPtr]['parenthesis_opener'];
-        $arrayEnd     = $tokens[$arrayStart]['parenthesis_closer'];
+        if ($tokens[$stackPtr]['code'] === T_OPEN_SHORT_ARRAY) {
+            $arrayStart   = $tokens[$stackPtr]['bracket_opener'];
+            $arrayEnd     = $tokens[$arrayStart]['bracket_closer'];
+        } else { // T_ARRAY
+            $arrayStart   = $tokens[$stackPtr]['parenthesis_opener'];
+            $arrayEnd     = $tokens[$arrayStart]['parenthesis_closer'];
+            if ($arrayStart != ($stackPtr + 1)) {
+                $phpcsFile->addError('There must be no space between the "array" keyword and the opening parenthesis', $stackPtr, 'SpaceAfterKeyword');
+            }
+        }
         $keywordStart = $tokens[$stackPtr]['column'];
 
-        if ($arrayStart != ($stackPtr + 1)) {
-            $phpcsFile->addError('There must be no space between the "array" keyword and the opening parenthesis', $stackPtr, 'SpaceAfterKeyword');
-        }
 
         // Check for empty arrays.
         $content = $phpcsFile->findNext(array(T_WHITESPACE), ($arrayStart + 1), ($arrayEnd + 1), true);
