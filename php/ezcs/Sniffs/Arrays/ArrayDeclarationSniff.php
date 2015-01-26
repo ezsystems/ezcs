@@ -173,7 +173,10 @@ class ezcs_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sniff
                     $stackPtrCount = count($tokens[$stackPtr]['nested_parenthesis']);
                 }
 
-                if (count($tokens[$nextToken]['nested_parenthesis']) > ($stackPtrCount + 1)) {
+                if (
+                    isset($tokens[$nextToken]['nested_parenthesis'])
+                    && (count($tokens[$nextToken]['nested_parenthesis']) > ($stackPtrCount + 1))
+                ) {
                     // This comma is inside more parenthesis than the ARRAY keyword,
                     // then there it is actually a comma used to seperate arguments
                     // in a function call.
