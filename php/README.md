@@ -29,6 +29,22 @@ $ git clone https://github.com/ezsystems/ezcs.git
 $ ln -s path/to/ezcs/php/ezcs /usr/share/php/PHP/CodeSniffer/Standards/ezcs
 ```
 
+### Windows systems
+
+On Windows, this is one way to install:
+
+```bash
+# Assuming PHP is installed in C:\php
+# install pear:
+# download http://pear.php.net/go-pear.phar and place it in C:\php
+$ cd c:\php
+$ .\php.exe go-pear.phar
+# install php code sniffer
+$ pear install PHP_CodeSniffer
+# clone the ezcs repository (via Git GUI, Git Shell, PowerShell, etc)
+# copy path\to\ezcs\php\ezcs to C:\php\pear\PHP\CodeSniffer\Standards
+```
+
 ## Usage
 
 Use phpcs' `--standard` option to use it, example:
