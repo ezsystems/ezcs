@@ -21,6 +21,8 @@
 
 EXIT_CODE=0
 REPORT="logs/report.txt"
+# Use PHPCS installed by composer for current user.
+PHPCS="/var/lib/jenkins/.composer/vendor/bin/phpcs"
 REPO=$1
 shift
 
@@ -34,7 +36,7 @@ CSSLINTRC=.csslintrc
 setCommitStatus.php "$REPO" $(git rev-parse HEAD) "pending" "" "Code review by ezrobot" "ezrobot"
 
 if [ "$TOOL" = "phpcs" ] ; then
-    phpcs --report-full="$REPORT" $*
+    $PHPCS --report-full="$REPORT" $*
     EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ] ; then
         sed -i '1s@^@This Pull Request does not respect our [PHP Coding Standards](https://github.com/ezsystems/ezcs/tree/master/php), please, see the report below:\n\n```\n@' "$REPORT"
