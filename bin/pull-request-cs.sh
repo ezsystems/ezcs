@@ -21,7 +21,6 @@
 
 EXIT_CODE=0
 REPORT="logs/report.txt"
-export PATH="/var/lib/jenkins/.composer/vendor/bin:$PATH"
 REPO=$1
 shift
 
