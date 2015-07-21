@@ -40,6 +40,13 @@ if [ "$TOOL" = "phpcs" ] ; then
         sed -i '1s@^@This Pull Request does not respect our [PHP Coding Standards](https://github.com/ezsystems/ezcs/tree/master/php), please, see the report below:\n\n```\n@' "$REPORT"
         echo '```' >> "$REPORT"
     fi
+elif [ "$TOOL" = "phpcsfixer" ] ; then
+    ~/.composer/vendor/bin/php-cs-fixer --dry-run --diff fix $* > "$REPORT"
+    EXIT_CODE=$?
+    if [ $EXIT_CODE -ne 0 ] ; then
+        sed -i '1s@^@This Pull Request does not respect [PSR-2 Coding Standards](http://www.php-fig.org/psr/psr-2/), please, see the suggested diff below:\n\n```diff\n@' "$REPORT"
+        echo '```' >> "$REPORT"
+    fi
 elif [ "$TOOL" = "jshint" ] ; then
     SRC=$1
     shift
