@@ -38,14 +38,14 @@ if [ "$TOOL" = "phpcs" ] ; then
     phpcs --report-full="$REPORT" $*
     EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ] ; then
-        sed -i '1s@^@This Pull Request does not respect our [PHP Coding Standards](https://github.com/ezsystems/ezcs/tree/master/php), please, see the report below:\n\n```\n@' "$REPORT"
+        sed -i '1s@^@Tool version : '"`phpcs --version 2>&1`"'\nCommand executed ```'"phpcs --report-full=report.log $*"'```\nThis Pull Request does not respect our [PHP Coding Standards](https://github.com/ezsystems/ezcs/tree/master/php), please, see the report below:\n\n```\n@' "$REPORT"
         echo '```' >> "$REPORT"
     fi
 elif [ "$TOOL" = "phpcsfixer" ] ; then
     ~/.composer/vendor/bin/php-cs-fixer --dry-run --diff -v fix $* > "$REPORT"
     EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ] ; then
-        sed -i '1s@^@This Pull Request does not respect [PSR-2 Coding Standards](http://www.php-fig.org/psr/psr-2/), please, see the suggested diff below:\n\n```diff\n@' "$REPORT"
+        sed -i '1s@^@Tool version : '"`~/.composer/vendor/bin/php-cs-fixer --version 2>&1`"'\nCommand executed ```'"php-cs-fixer --dry-run --diff -v fix $*"'```\nThis Pull Request does not respect [PSR-2 Coding Standards](http://www.php-fig.org/psr/psr-2/), please, see the suggested diff below:\n\n```diff\n@' "$REPORT"
         echo '```' >> "$REPORT"
     fi
 elif [ "$TOOL" = "jshint" ] ; then
@@ -54,24 +54,24 @@ elif [ "$TOOL" = "jshint" ] ; then
     for f in `find $SRC -iname \*.js` ; do
         OUT=`jshint $* "$f" 2>&1`
         LOCAL_EXIT_CODE=$?
-        [ $LOCAL_EXIT_CODE -ne 0 ] && echo "\`\`\`\n$OUT\n\`\`\`\n" >> "$REPORT" && EXIT_CODE=42
+        [ $LOCAL_EXIT_CODE -ne 0 ] && echo "Command executed : \`\`\`jshint $* $f\`\`\`, output : " >> $REPORT && echo "\`\`\`\n$OUT\n\`\`\`\n" >> "$REPORT" && EXIT_CODE=42
     done
     if [ $EXIT_CODE -ne 0 ] ; then
-        sed -i '1s@^@jshint with [our configuration](https://github.com/ezsystems/ezcs/tree/master/js) reports the following issues:\n\n@' "$REPORT"
+        sed -i '1s@^@Tool version : '"`jshint --version 2>&1`"'\njshint with [our configuration](https://github.com/ezsystems/ezcs/tree/master/js) reports the following issues:\n\n@' "$REPORT"
     fi
 elif [ "$TOOL" = "csslint" ] ; then
     [ ! -f "$CSSLINTRC" ] && wget "$REMOTE_CSSLINTRC" -O "$CSSLINTRC"
     csslint $* | grep --color=never 'Error' > "$REPORT"
     EXIT_CODE=`wc -l $REPORT | cut -d ' ' -f 1`
     if [ $EXIT_CODE -ne 0 ] ; then
-        sed -i '1s@^@csslint with [our configuration](https://github.com/ezsystems/ezcs/tree/master/css) reports the following errors:\n\n```\n@' "$REPORT"
+        sed -i '1s@^@Tool version : csslint '"`csslint --version 2>&1`"'\nCommand executed ```'"csslint $*"' | grep --color=never "Error"```\ncsslint with [our configuration](https://github.com/ezsystems/ezcs/tree/master/css) reports the following errors:\n\n```\n@' "$REPORT"
         echo '```' >> "$REPORT"
     fi
 elif [ "$TOOL" = "yuidoc" ] ; then
     yuidoc --lint $* >> $REPORT
     EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ] ; then
-        sed -i '1s@^@yuidoc reports the following documentation warnings:\n\n```\n@' "$REPORT"
+        sed -i '1s@^@Tool version : yuidoc '"`yuidoc --version 2>&1`"'\nCommand executed ```'"yuidoc --lint $*"'```\nyuidoc reports the following documentation warnings:\n\n```\n@' "$REPORT"
         echo '```' >> "$REPORT"
     fi
 fi
