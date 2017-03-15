@@ -42,7 +42,7 @@ if [ "$TOOL" = "phpcs" ] ; then
         echo '```' >> "$REPORT"
     fi
 elif [ "$TOOL" = "phpcsfixer" ] ; then
-    ~/.composer/vendor/bin/php-cs-fixer --dry-run --diff -v fix $* > "$REPORT"
+    ~/.composer/vendor/bin/php-cs-fixer --dry-run --diff -v fix --no-ansi $* > "$REPORT"
     EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ] ; then
         sed -i '1s@^@Tool version : '"`~/.composer/vendor/bin/php-cs-fixer --version 2>&1`"'\nCommand executed ```'"php-cs-fixer --dry-run --diff -v fix $*"'```\nThis Pull Request does not respect [PSR-2 Coding Standards](http://www.php-fig.org/psr/psr-2/), please, see the suggested diff below:\n\n```diff\n@' "$REPORT"
