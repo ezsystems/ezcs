@@ -20,12 +20,13 @@
 # yuidoc <list of directories separated by space to search for .js files>
 
 EXIT_CODE=0
-REPORT="logs/report.txt"
 REPO=$1
 shift
-
 TOOL=$1
 shift
+
+REPORT="logs/report-$TOOL.txt"
+MAX_LOG_FILE_SIZE=5120
 
 REMOTE_CSSLINTRC=https://raw.github.com/ezsystems/ezcs/master/css/csslintrc
 CSSLINTRC=.csslintrc
@@ -77,6 +78,13 @@ fi
 
 # Output the report for easier debug in case of (gihub/*) issues
 cat $REPORT
+
+# shrink log file if needed
+FILESIZE=`cat $REPORT |wc -c`
+if [ $FILESIZE -gt $MAX_LOG_FILE_SIZE ]; then
+    truncate -s '<5120' $REPORT
+    echo "(...)\n\nNOTICE : Report truncated to 5Kb\n\n" >> $REPORT
+fi
 
 if [ $EXIT_CODE -ne 0 ] ; then
     postComment.php "$REPO" $(grep -l $(git rev-parse HEAD) .git/refs/remotes/origin/pr/*/head | sed 's@\.git/refs/remotes/origin/pr/@@;s@/head@@') "$PWD/$REPORT"
