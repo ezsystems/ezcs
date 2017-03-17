@@ -42,7 +42,7 @@ if [ "$TOOL" = "phpcs" ] ; then
         echo '```' >> "$REPORT"
     fi
 elif [ "$TOOL" = "phpcsfixer" ] ; then
-    ~/.composer/vendor/bin/php-cs-fixer --dry-run --diff -v fix --no-ansi $* > "$REPORT"
+    ~/.composer/vendor/bin/php-cs-fixer --dry-run --diff -v fix --no-ansi $* > "$REPORT" 2>&1
     EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ] ; then
         sed -i '1s@^@Tool version : '"`~/.composer/vendor/bin/php-cs-fixer --version 2>&1`"'\nCommand executed ```'"php-cs-fixer --dry-run --diff -v fix $*"'```\nThis Pull Request does not respect [PSR-2 Coding Standards](http://www.php-fig.org/psr/psr-2/), please, see the suggested diff below:\n\n```diff\n@' "$REPORT"
@@ -61,14 +61,14 @@ elif [ "$TOOL" = "jshint" ] ; then
     fi
 elif [ "$TOOL" = "csslint" ] ; then
     [ ! -f "$CSSLINTRC" ] && wget "$REMOTE_CSSLINTRC" -O "$CSSLINTRC"
-    csslint $* | grep --color=never 'Error' > "$REPORT"
+    csslint $* | grep --color=never 'Error' > "$REPORT" 2>&1
     EXIT_CODE=`wc -l $REPORT | cut -d ' ' -f 1`
     if [ $EXIT_CODE -ne 0 ] ; then
         sed -i '1s@^@Tool version : csslint '"`csslint --version 2>&1`"'\nCommand executed ```'"csslint $*"' | grep --color=never "Error"```\ncsslint with [our configuration](https://github.com/ezsystems/ezcs/tree/master/css) reports the following errors:\n\n```\n@' "$REPORT"
         echo '```' >> "$REPORT"
     fi
 elif [ "$TOOL" = "yuidoc" ] ; then
-    yuidoc --lint $* >> $REPORT
+    yuidoc --lint $* > $REPORT 2>&1
     EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ] ; then
         sed -i '1s@^@Tool version : yuidoc '"`yuidoc --version 2>&1`"'\nCommand executed ```'"yuidoc --lint $*"'```\nyuidoc reports the following documentation warnings:\n\n```\n@' "$REPORT"
