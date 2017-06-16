@@ -42,10 +42,12 @@ if [ "$TOOL" = "phpcs" ] ; then
         echo '```' >> "$REPORT"
     fi
 elif [ "$TOOL" = "phpcsfixer" ] ; then
-    ~/.composer/vendor/bin/php-cs-fixer --dry-run --diff -v fix --no-ansi $* > "$REPORT" 2>&1
+    php7.0 ~/.composer/vendor/bin/php-cs-fixer --dry-run -v fix --no-ansi $*
     EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ] ; then
-        sed -i '1s@^@Tool version : '"`~/.composer/vendor/bin/php-cs-fixer --version 2>&1`"'\nCommand executed ```'"php-cs-fixer --dry-run --diff -v fix $*"'```\nThis Pull Request does not respect [PSR-2 Coding Standards](http://www.php-fig.org/psr/psr-2/), please, see the suggested diff below:\n\n```diff\n@' "$REPORT"
+        php7.0 ~/.composer/vendor/bin/php-cs-fixer -v fix --no-ansi $*
+        git diff >> "$REPORT" 2>&1
+        sed -i '1s@^@Tool version : '"`~/.composer/vendor/bin/php-cs-fixer --version 2>&1`"'\nCommand executed ```'"php-cs-fixer --dry-run -v fix $*"'```\nThis Pull Request does not respect [PSR-2 Coding Standards](http://www.php-fig.org/psr/psr-2/), please, see the suggested diff below:\n\n```diff\n@' "$REPORT"
         echo '```' >> "$REPORT"
     fi
 elif [ "$TOOL" = "jshint" ] ; then
