@@ -31,7 +31,7 @@ MAX_LOG_FILE_SIZE=5120
 REMOTE_CSSLINTRC=https://raw.github.com/ezsystems/ezcs/master/css/csslintrc
 CSSLINTRC=.csslintrc
 
-
+touch $REPORT
 setCommitStatus.php "$REPO" $(git rev-parse HEAD) "pending" "" "Code review by ezrobot" "ezrobot/$TOOL"
 
 if [ "$TOOL" = "phpcs" ] ; then
