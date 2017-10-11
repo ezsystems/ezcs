@@ -42,7 +42,7 @@ if [ "$TOOL" = "phpcs" ] ; then
         echo '```' >> "$REPORT"
     fi
 elif [ "$TOOL" = "phpcsfixer" ] ; then
-    php7.0 ~/.composer/vendor/bin/php-cs-fixer --dry-run -v fix --no-ansi $*
+    php7.1 ~/.composer/vendor/bin/php-cs-fixer --dry-run -v fix --no-ansi $*
     EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ] ; then
         php7.0 ~/.composer/vendor/bin/php-cs-fixer -v fix --no-ansi $*
